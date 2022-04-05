@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title>Smart City</title>
+		<link rel="shortcut icon" href="./static/img/Smart-City.jpg" />
+		<link rel="stylesheet" type="text/css" href="./static/css/style.css">
+
+</head>
+<body>
+	<div class="message">ajajajaj</div>
+	<div class="container">
+<!--		<h1 class="title">Выберите машинку:</h1>-->
+		<form class="form" id="form">
+			<div class="select">
+		    	<input class="select__input" type="hidden" name="model">
+		    	<div class="select__head">Выберите машинку</div>
+			    <ul class="select__list" style="display: none;">
+			        <li class="select__item">rts-ubuntu-01</li>
+			        <li class="select__item">rts-ubuntu-02</li>
+			        <li class="select__item">rts-ubuntu-03</li>
+			        <li class="select__item">rts-ubuntu-04</li>
+			    </ul>
+			</div>
+			<label class="button file" for="file">Выберите файл</label>
+			<input type="file" name="file" id="file" class="hide">
+			<button type="submit" class="button">Загрузить и запустить прошивку</button>
+		</form>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="./static/js/index.js"></script>
+</body>
+</html>
