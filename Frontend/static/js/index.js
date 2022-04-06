@@ -47,6 +47,7 @@ const myForm = document.querySelector("#form")
 const myFormFile = document.querySelector("#file")
 const myFormModel = document.querySelector(".select__input")
 const message = document.querySelector(".message")
+const stop = document.querySelector(".stop")
 
 const apiBase = "http://192.168.0.111:8080/api/v1/new" // ссылка на файл
 const timeOutMessage = 1000
@@ -72,7 +73,7 @@ myForm.onsubmit = function(e) {
 	}
 	formData.append("name", myFormModel.value)
 	formData.append("file", myFormFile.files[0])
-	axios.post(apiBase, formData, {timeout: 2000})
+	axios.post(apiBase, formData, {timeout: 5000})
 	  .then(function (response) {
 		  if (response.statusText == "OK") {
 			  message.innerHTML = response.data.message
@@ -92,3 +93,27 @@ myForm.onsubmit = function(e) {
 }
 
 // /Отправка формы
+
+// stop script
+
+stop.onclick = () => {
+	axios.post(`http://192.168.0.111:8080/api/v1/kill`)
+	  .then(function (response) {
+		  if (response.statusText == "OK") {
+			  message.innerHTML = response.data.message
+			  message.classList.add("active")
+			  setTimeout(() => {
+				  message.classList.remove("active")
+			  }, timeOutMessage)
+		  }
+	  })
+	  .catch(function (error) {
+		  message.innerHTML = "Ошибка при остановке машинки"
+		  message.classList.add("error", "active")
+		  setTimeout(() => {
+			 message.classList.remove("error", "active")
+		  }, timeOutMessage)
+	  });
+}
+
+// /stop script

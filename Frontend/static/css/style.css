@@ -166,3 +166,7 @@ body {
 .message.error {
 	background: red;
 }
+
+.stop {
+    margin-top: 20px;
+}
