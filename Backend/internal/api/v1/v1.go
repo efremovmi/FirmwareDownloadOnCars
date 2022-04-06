@@ -9,6 +9,7 @@ func RegisterRoutes(r *gin.Engine, uc *usecase.Handler) {
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("/new", UploadFile(uc))
+		v1.POST("/kill", Kill(uc))
 	}
 
 }
