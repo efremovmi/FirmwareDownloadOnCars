@@ -91,11 +91,16 @@ func ProcessingRaspberryFiles(uc *usecase.Handler) error {
 				} else {
 					file, err := os.Open(fmt.Sprintf("%s_%s", key, all.Data[id-1].File))
 					err = uc.UpdateArduino(key, fmt.Sprintf("%s_%s", key, all.Data[id-1].File))
-					_ = file.Close()
-
-					err = os.Remove(fmt.Sprintf("%s_%s", key, all.Data[id-1].File))
 					if err != nil {
 						println(err.Error())
+					}
+
+					_ = file.Close()
+					err = os.Remove(fmt.Sprintf("%s_%s", key, all.Data[id-1].File))
+
+					if err != nil {
+						println(err.Error())
+						continue
 					}
 
 					if err != nil {
