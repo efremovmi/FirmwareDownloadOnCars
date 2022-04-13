@@ -2,7 +2,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route('/download')
+@app.route('/')
 def logs():
     '''Rendering start page'''
 

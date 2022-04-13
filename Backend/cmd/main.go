@@ -1,29 +1,25 @@
 package main
 
 import (
-	"Clever_City/internal/api"
-	"Clever_City/internal/repository"
+	"Clever_City/internal/service/worker"
 	"Clever_City/internal/usecase"
-	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
-	"log"
 	"os"
 	"os/signal"
 )
 
 func main() {
-	db, err := sqlx.Connect("sqlite3", "db.db")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer db.Close()
-
-	repo := repository.NewRepository(db)
-	uc := usecase.NewHandler(repo)
-	router := api.NewRouter(uc)
+	uc := usecase.NewHandler()
+	//router := api.NewRouter(uc)
+	//
+	//go func() {
+	//	router.Start()
+	//}()
 
 	go func() {
-		router.Start()
+		if err := worker.ProcessingRaspberryFiles(uc); err != nil {
+			panic(err)
+		}
 	}()
 
 	quit := make(chan os.Signal)

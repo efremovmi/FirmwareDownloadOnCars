@@ -49,7 +49,7 @@ const myFormModel = document.querySelector(".select__input")
 const message = document.querySelector(".message")
 const stop = document.querySelector(".stop")
 
-const apiBase = "http://192.168.0.111:8080/api/v1/new" // ссылка на файл
+const apiBase = "http://localhost:8080/api/v1/new" // ссылка на файл
 const timeOutMessage = 1000
 
 myForm.onsubmit = function(e) {
@@ -97,7 +97,25 @@ myForm.onsubmit = function(e) {
 // stop script
 
 stop.onclick = () => {
-	axios.post(`http://192.168.0.111:8080/api/v1/kill`)
+	const formData = new FormData()
+	if (!myFormModel.value) {
+		message.innerHTML = "Выберите название машинки"
+		message.classList.add("error", "active")
+		setTimeout(() => {
+			message.classList.remove("error", "active")
+		}, timeOutMessage)
+		return
+	}
+	if (!myFormFile.files[0]) {
+		message.innerHTML = "Вы не выбрали файл"
+		message.classList.add("error", "active")
+		setTimeout(() => {
+			message.classList.remove("error", "active")
+		}, timeOutMessage)
+		return
+	}
+	formData.append("name", myFormModel.value)
+	axios.post(`http://localhost:8080/api/v1/kill`, formData, {timeout: 5000})
 	  .then(function (response) {
 		  if (response.statusText == "OK") {
 			  message.innerHTML = response.data.message
