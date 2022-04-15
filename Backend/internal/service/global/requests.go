@@ -6,16 +6,18 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
-type DataType struct {
+type TypeData struct {
 	Id         string `json:"id"`
 	Name       string `json:"name"`
 	Lastupdate string `json:"lastupdate"`
 	File       string `json:"file"`
 	Status     string `json:"status"`
+	Usergroup  string `json:"usergroup"`
 }
+
 type AllData struct {
 	Status bool       `json:"status"`
-	Data   []DataType `json:"data"`
+	Data   []TypeData `json:"data"`
 }
 
 func AskAll() (error, *AllData) {
@@ -24,7 +26,7 @@ func AskAll() (error, *AllData) {
 	resp, err := client.R().
 		SetQueryParam("key", "getCars").
 		SetQueryParam("apikey", "LQRYA65qLUoiQj1nN9caeO4CxAE9f8Oi").
-		Get("https://writecode.kz/apidm/cars/getData.php")
+		Get("https://hackmpei.ru/api/getData.php")
 
 	if err != nil {
 		return err, nil
@@ -49,7 +51,7 @@ func GetFile(name, filename string) error {
 		SetQueryParam("apikey", "LQRYA65qLUoiQj1nN9caeO4CxAE9f8Oi").
 		SetQueryParam("name", filename).
 		SetOutput(fmt.Sprintf("%s_%s", name, filename)).
-		Get("https://writecode.kz/apidm/cars/download.php")
+		Get("https://hackmpei.ru/api/download.php")
 
 	if err != nil {
 		return err

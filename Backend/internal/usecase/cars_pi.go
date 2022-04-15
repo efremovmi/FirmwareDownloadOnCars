@@ -28,8 +28,9 @@ var (
 
 func (uc *Handler) TransferFile(file io.Reader, name string) error {
 	if _, ok := configMap[name]; !ok {
-		return fmt.Errorf("I have no idea what is it")
+		return fmt.Errorf("I have no idea what it is. func: %s. name: %s", "TransferFile", name)
 	}
+	fmt.Println("Updating raspberry #:", name)
 
 	if _, ok := IpMap[name]; !ok {
 		return fmt.Errorf("I have no idead what is it")

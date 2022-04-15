@@ -15,10 +15,11 @@ var (
 )
 
 func (uc *Handler) UpdateArduino(name string, file string) error {
-	fmt.Println("Updating arduino #:", name)
 	if _, ok := IpMaps[name]; !ok {
-		return fmt.Errorf("I have no idea what it is")
+		return fmt.Errorf("I have no idea what it is. func: %s. name: %s", "UpdateArduino", name)
 	}
+
+	fmt.Println("Updating arduino #:", name)
 
 	cmd := exec.Command("python", "postFile.py", "--filename", file, "--ip", IpMaps[name])
 	out, err := cmd.Output()

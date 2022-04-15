@@ -1,11 +1,10 @@
 package v1
 
-//import (
-//	"Clever_City/internal/usecase"
-//	"fmt"
-//	"github.com/gin-gonic/gin"
-//	"net/http"
-//)
+import (
+	"Clever_City/internal/usecase"
+	"github.com/gin-gonic/gin"
+)
+
 //
 //func UploadFile(uc *usecase.Handler) gin.HandlerFunc {
 //	return func(c *gin.Context) {
@@ -55,3 +54,9 @@ package v1
 //		})
 //	}
 //}
+
+func UploadLogs(uc *usecase.Handler) gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+	}
+}

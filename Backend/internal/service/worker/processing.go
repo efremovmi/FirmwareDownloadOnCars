@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 )
 
@@ -18,6 +19,7 @@ var (
 		"carAr_3": "",
 		"carAr_4": "",
 	}
+	fileMapMu = &sync.Mutex{}
 
 	statusMap = map[string]string{
 		"carPi_1": "1",
@@ -27,6 +29,7 @@ var (
 		"carAr_3": "1",
 		"carAr_4": "1",
 	}
+	statusMapMu = &sync.Mutex{}
 
 	idMap = map[string]string{
 		"carPi_1": "1",
@@ -36,6 +39,16 @@ var (
 		"carAr_3": "5",
 		"carAr_4": "6",
 	}
+
+	userGroupMap = map[string]string{
+		"carPi_1": "0",
+		"carPi_2": "0",
+		"carAr_1": "0",
+		"carAr_2": "0",
+		"carAr_3": "0",
+		"carAr_4": "0",
+	}
+	userGroupMapMu = &sync.Mutex{}
 )
 
 func ProcessingRaspberryFiles(uc *usecase.Handler) error {
@@ -51,6 +64,7 @@ func ProcessingRaspberryFiles(uc *usecase.Handler) error {
 
 		for key, value := range fileMap {
 			id, _ := strconv.Atoi(idMap[key])
+
 			if all.Data[id-1].File != value {
 				err := global.GetFile(key, all.Data[id-1].File)
 				if err != nil {
@@ -73,7 +87,9 @@ func ProcessingRaspberryFiles(uc *usecase.Handler) error {
 					}
 				}
 
+				fileMapMu.Lock()
 				fileMap[key] = all.Data[id-1].File
+				fileMapMu.Unlock()
 			}
 		}
 
@@ -109,22 +125,27 @@ func ProcessingRaspberryFiles(uc *usecase.Handler) error {
 					}
 				}
 
+				statusMapMu.Lock()
 				statusMap[key] = "0"
+				statusMapMu.Unlock()
 
-			} else {
-				if all.Data[id-1].Status == "1" && value == "0" {
-					statusMap[key] = "1"
+			} else if all.Data[id-1].Status == "1" && value == "0" {
+				statusMapMu.Lock()
+				statusMap[key] = "1"
+				statusMapMu.Unlock()
 
-					err = uc.KillProcess(key)
-					if err != nil {
-						println(err.Error())
-						continue
-					}
+				err = uc.KillProcess(key)
+				if err != nil {
+					println(err.Error())
+					continue
 				}
 			}
 		}
-
 	}
 
 	return nil
+}
+
+func ProcessName(name string) {
+
 }
